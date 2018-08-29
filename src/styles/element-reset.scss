@@ -1,0 +1,39 @@
+
+// 仅存放element-ui全局重置样式
+
+//面包屑
+.el-breadcrumb{
+    //background:map-get($colors, gray);
+    height:51px;
+    line-height: 51px!important;
+    display: flex;
+    align-items:center;
+    // position:relative;
+    // top: 20px;
+}
+// 单选框
+.text-check .el-radio__label{
+    font-size: 16px!important;
+}
+.el-tabs .el-tabs__item{
+    font-size:16px;
+    height: 60px;
+    line-height:60px;
+}
+.el-menu .el-menu-item{
+    font-size:16px;
+}
+.wrongRadio .el-radio__input.is-checked .el-radio__inner{
+    border-color: #FF4040;
+    background: #FF4040;
+}
+.wrongRadio .el-radio__input.is-checked+.el-radio__label{
+    color: #FF4040;
+}
+.rightRadio .el-radio__input.is-checked .el-radio__inner{
+    border-color: #67C23A;
+    background: #67C23A;
+}
+.rightRadio .el-radio__input.is-checked+.el-radio__label{
+    color: #67C23A;
+}
