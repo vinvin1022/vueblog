@@ -28,7 +28,7 @@ export default {
   async getUserList (pageSize = requireParams(), pageNum = requireParams()) {
     // let cancleApi = sources.get('/api/getUserList')
     // cancleApi && cancleApi(true)
-    const result = await post('/api/getUserList', {pageSize, pageNum})
+    const result = await post('/api/users/getUserList', {pageSize, pageNum})
     console.log(result)
     errorHandler(result.code, result.text)
     return result.data

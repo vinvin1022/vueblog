@@ -1,7 +1,7 @@
 <template>
   <div class="header-nav">
     <div class="logo">
-      <div class="img"></div>
+      <div class="userName">欢迎你! <span style="color:#ff0000">{{userName}}</span></div>
       <div class="text">在线学习平台</div>
     </div>
     <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
@@ -144,6 +144,7 @@ export default {
         color:#666;
         padding-left:16px;
         border-left:1px solid #666;
+        margin-left:16px;
       }
     };
     .person{

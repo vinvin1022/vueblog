@@ -23,9 +23,9 @@
                     </div> -->
                     <div class="btns" style="margin-top:20px">
                       {{maxAge}}
-                      <el-form-item label="保存">
-                        <el-radio-group v-model="maxAge" size="small">
-                          <el-radio label="0" border>一天</el-radio>
+                      <el-form-item label="保持登陆">
+                        <el-radio-group v-model="maxAge" size="mini">
+                          <el-radio label="0" border>一分钟</el-radio>
                           <el-radio label="1" border>七天</el-radio>
                           <el-radio label="2" border>三十天</el-radio>
                         </el-radio-group>
@@ -149,8 +149,8 @@ export default {
       let maxAge = 0
       switch (this.maxAge) {
         case '0':
-          // 一天
-          maxAge = 24 * 60 * 60 * 1000
+          // 一分钟
+          maxAge = 60 * 1000
           break
         case '1':
           // 七天
@@ -222,12 +222,12 @@ export default {
         }
     }
     .box{
-        width:370px;
+        width:410px;
         height:370px;
         margin-top:35px;
         display: flex;
         .form{
-            width:370px;
+            width:410px;
             background: #fff;
             .form-name{
                 text-align: center;
@@ -239,7 +239,7 @@ export default {
                     margin-left:-100px;
                 }
                 .btns .el-form-item{
-                    margin-left:-60px;
+                    margin-left:-30px;
                     margin-bottom: 0;
                 }
                 .el-button--primary{
