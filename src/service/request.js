@@ -42,30 +42,35 @@ axios.interceptors.response.use(function (response) {
   return Promise.reject(error)
 })
 
-export function post (url, params, config) {
+const CancelToken = axios.CancelToken
+let sources = new Map()
+
+const request = function (url, params, config, method) {
   return new Promise((resolve, reject) => {
-    axios.post(url, params, config)
-      .then(response => {
-        resolve(response.data)
-      }, err => {
-        reject(err)
+    axios[method](url, params, Object.assign({}, config, {
+      cancelToken: new CancelToken(function executor (c) {
+        sources.set(url, c)
       })
-      .catch(err => {
+    })).then(response => {
+      resolve(response.data)
+    }, err => {
+      if (err.Cancel) {
+        console.log(err)
+      } else {
         reject(err)
-      })
+      }
+    }).catch(err => {
+      reject(err)
+    })
   })
 }
 
-export function get (url, params) {
-  return new Promise((resolve, reject) => {
-    axios.get(url, params)
-      .then(response => {
-        resolve(response.data)
-      }, err => {
-        reject(err)
-      })
-      .catch(err => {
-        reject(err)
-      })
-  })
+const post = (url, params, config = {}) => {
+  return request(url, params, config, 'post')
 }
+
+const get = (url, params, config = {}) => {
+  return request(url, params, config, 'get')
+}
+
+export {sources, post, get}

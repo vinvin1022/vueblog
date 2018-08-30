@@ -1,6 +1,6 @@
 
 // 路由懒加载 https://router.vuejs.org/zh-cn/advanced/lazy-loading.html
-import store from '../store'
+// import store from '../store'
 
 const login = () => import(/* webpackChunkName: "login" */ '../pages/auth/login.vue')
 const register = () => import(/* webpackChunkName: "login" */ '../pages/auth/register.vue')

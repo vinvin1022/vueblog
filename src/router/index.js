@@ -1,5 +1,6 @@
 
 import Vue from 'vue'
+import { sources } from '../service/request'
 import Router from 'vue-router'
 // import store from '../store'
 
@@ -19,7 +20,12 @@ const router = new Router({
 
 // 全局导航守卫 //https://router.vuejs.org/zh-cn/advanced/navigation-guards.html
 router.beforeEach((to, from, next) => {
-  // document.title = to.meta.title || to.name
+  document.title = to.meta.title || to.name
+  sources.forEach((value, key) => {
+    value && value()
+  })
+  sources.clear()
+  console.log(sources)
   next()
 })
 
