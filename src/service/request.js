@@ -14,17 +14,20 @@ axios.defaults.baseURL = process.env.BASE_URL
 
 axios.interceptors.request.use((config) => {
   store.dispatch('loadingStart')
+  console.log('1', store.getters.globalState.loading)
   const token = store.getters.userInfo.token
   if (token) {
     config.headers.token = token
   }
   return config
 }, function (error) {
+  console.log('4', store.getters.globalState.loading)
   return Promise.reject(error)
 })
 
 axios.interceptors.response.use(function (response) {
   store.dispatch('loadingEnd')
+  console.log('2', store.getters.globalState.loading)
   if (response.data.code === 900401) {
     store.commit({
       type: 'clearUserState'
@@ -34,11 +37,19 @@ axios.interceptors.response.use(function (response) {
   }
   return response
 }, function (error) {
-  Message({
-    message: '网络请求失败',
-    type: 'error',
-    duration: 1000
-  })
+  console.log('3', store.getters.globalState.loading)
+
+  if (axios.isCancel(error)) {
+    // throw new axios.Cancel('cancel request')
+    // return {status: '', code: 200, text: '取消请求了', data: []}
+  } else {
+    Message({
+      message: '网络请求失败',
+      type: 'error',
+      duration: 1000
+    })
+  }
+  // store.dispatch('loadingEnd')
   return Promise.reject(error)
 })
 
@@ -54,11 +65,7 @@ const request = function (url, params, config, method) {
     })).then(response => {
       resolve(response.data)
     }, err => {
-      if (err.Cancel) {
-        console.log(err)
-      } else {
-        reject(err)
-      }
+      reject(err)
     }).catch(err => {
       reject(err)
     })

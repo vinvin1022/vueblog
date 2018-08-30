@@ -1,6 +1,6 @@
 import { post } from '../../service/request'
 import { Message } from 'element-ui'
-
+// import { sources } from '@/service/request'
 const errorHandler = function (code, text) {
   if (code !== 200) {
     Message(
@@ -26,8 +26,11 @@ export default {
    *
    */
   async getUserList (pageSize = requireParams(), pageNum = requireParams()) {
-    const {code, data, text} = await post('/api/getUserList', {pageSize, pageNum})
-    errorHandler(code, text)
-    return data
+    // let cancleApi = sources.get('/api/getUserList')
+    // cancleApi && cancleApi(true)
+    const result = await post('/api/getUserList', {pageSize, pageNum})
+    console.log(result)
+    errorHandler(result.code, result.text)
+    return result.data
   }
 }
