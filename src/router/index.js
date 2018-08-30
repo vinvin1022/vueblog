@@ -25,7 +25,6 @@ router.beforeEach((to, from, next) => {
     value && value()
   })
   sources.clear()
-  console.log(sources)
   next()
 })
 

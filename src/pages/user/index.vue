@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-main>
-      <el-table
+      <el-table v-loading="loading"
         :data="tableData && tableData.userList"
         stripe border
         style="width: 100%">
@@ -52,6 +52,7 @@ import userService from './userService.js'
 export default {
   data () {
     return {
+      loading: false,
       tableData: {},
       pageSizes: [10, 15, 30, 50],
       pageSize: 10,
@@ -63,7 +64,9 @@ export default {
   },
   methods: {
     getUserList () {
+      this.loading = true
       userService.getUserList(this.pageSize, this.pageNum).then(result => {
+        this.loading = false
         this.tableData = result
       })
     },
