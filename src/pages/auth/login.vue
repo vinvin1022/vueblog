@@ -22,7 +22,6 @@
                         <el-button type="text" @click="toggleFormType(3)">找回密码</el-button>
                     </div> -->
                     <div class="btns" style="margin-top:20px">
-                      {{maxAge}}
                       <el-form-item label="保持登陆">
                         <el-radio-group v-model="maxAge" size="mini">
                           <el-radio label="0" border>一分钟</el-radio>

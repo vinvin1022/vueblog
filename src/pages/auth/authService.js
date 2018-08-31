@@ -50,5 +50,13 @@ export default {
     const {code, data, text} = await post('/api/logout')
     errorHandler(code, text)
     return data
+  },
+  /**
+   * 上传头像
+   */
+  async uploadavatar () {
+    const {code, data, text} = await post('/api/uploadavatar')
+    errorHandler(code, text)
+    return data
   }
 }
