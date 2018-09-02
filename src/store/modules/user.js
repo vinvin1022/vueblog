@@ -6,7 +6,8 @@ const state = {
   token: '',
   uid: '',
   userName: '',
-  email: ''
+  email: '',
+  avatarSrc: ''
 }
 
 const getters = {

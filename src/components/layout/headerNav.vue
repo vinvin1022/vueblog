@@ -5,15 +5,9 @@
       <div class="text">在线学习平台</div>
     </div>
     <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-      <!-- <el-dropdown class="theme"  @command="handleCommand">
-        <span class="el-dropdown-link"></span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="setColor" v-for="(item,index) in Object.keys(colors)" :key=index>{{colors[item]}}</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown> -->
       <el-dropdown class="avater"  @command="handleCommand">
         <span class="el-dropdown-link">
-          <img :src="userInfo.iconUrl" alt="">
+          <img :src="userInfo.avatarSrc || avatarSrc" alt="">
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="logout">登出</el-dropdown-item>
@@ -21,20 +15,19 @@
       </el-dropdown>
       <el-menu-item v-for="(bar,barIndex) in navigationBar" :key="barIndex" :index="bar.index" >{{bar.name}}</el-menu-item>
     </el-menu>
-    <!-- <div class="person">
-      欢迎 {{userName}}
-    </div> -->
   </div>
 </template>
 
 <script>
 
 import { mapGetters, mapActions } from 'vuex'
+import avater from '@/assets/images/avater.png'
 
 export default {
   name: 'headerNav',
   data () {
     return {
+      avatarSrc: avater,
       userName: 'guest',
       activeIndex: '0',
       navigationBar: [

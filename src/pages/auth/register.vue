@@ -19,16 +19,15 @@
                <el-form-item prop="toopassword">
                   <el-input placeholder="请再次输入密码" minlength="6" maxlength="18" type="password"  v-model.trim="registerForm.toopassword"></el-input>
                </el-form-item>
-              <!-- <el-form-item prop="toopassword">
+              <el-form-item class="avatar" label="头像" prop="avatar">
                 <el-upload
                   class="upload"
                   action="https://jsonplaceholder.typicode.com/posts/"
-                  :on-preview="handlePreview"
                   :on-remove="handleRemove"
                   :before-remove="beforeRemove"
                   :on-success="handleSuccess"
                   :on-error="handleError"
-                  name="file"
+                  name="avatar"
                   :limit="1"
                   :on-exceed="handleExceed"
                   :file-list="fileList"
@@ -36,8 +35,7 @@
                   <el-button size="small" type="primary">点击上传</el-button>
                   <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
                 </el-upload>
-              </el-form-item> -->
-              <input id="uploadavatar" type="file" value=""/>
+              </el-form-item>
               <el-button @click="submitregisterForm('registerForm')" type="primary">注册</el-button>
           </el-form>
       </div>
@@ -53,6 +51,7 @@ export default {
   name: 'login',
   data () {
     return {
+      avatarSrc: 'http://localhost:3000/upload/1535812746670-timg.jpg',
       fileList: [],
       registerForm: {
         username: 'sheng',
@@ -84,7 +83,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let {username, email, cellphone, password, toopassword} = this.registerForm
-          authService.register(username, email, cellphone, password, toopassword).then(result => {
+          authService.register(username, email, cellphone, password, toopassword, this.avatarSrc).then(result => {
             this.registerSuccess()
           }).catch((err) => {
             console.log(err)
@@ -101,65 +100,36 @@ export default {
         type: 'success'
       })
       this.$router.push({path: 'login'})
-    }
-    // handleRemove (file, fileList) {
-    //   console.log(file, fileList)
-    // },
-    // handlePreview (file) {
-    //   console.log(file)
-    // },
-    // handleExceed (files, fileList) {
-    //   this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
-    // },
-    // beforeRemove (file, fileList) {
-    //   return this.$confirm(`确定移除 ${file.name}？`)
-    // },
-    // handleSuccess (response, file, fileList) {
-    //   console.log(response, file, fileList)
-    // },
-    // handleError () {
+    },
+    handleRemove (file, fileList) {
+      console.log(file, fileList)
+    },
+    handleExceed (files, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+    },
+    beforeRemove (file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`)
+    },
+    handleSuccess (response, file, fileList) {
+      console.log(response, file, fileList)
+    },
+    handleError () {
 
-    // },
-    // httpRequest () {
-    //   debugger
-    //   authService.uploadavatar().then(result => {
-    //     console.log(result)
-    //   }).catch((err) => {
-    //     console.log(err)
-    //   })
-    // }
-
-  },
-
-  mounted () {
-    var Input = document.getElementById('uploadavatar')
-    Input.onchange = function upload () {
-      var files = this.files ? this.files : []
-      if (!files.length || !window.FileReader) {
-        console.log('浏览器不支持HTML5')
-        return false
-      };
-      // 创建一个FormData对象,用来组装一组用 XMLHttpRequest发送请求的键/值对
+    },
+    httpRequest (files) {
       var fd = new FormData()
-      // 把 input 标签获取的文件加入 FromData 中
-      fd.append('file', files[0])
+      // 上传的文件
+      fd.append('avatar', files.file)
+      // 额外参数
+      fd.append('title', 'avatar')
 
-      // Ajax
-      var request = new XMLHttpRequest()
-      request.open('POST', 'http://localhost:3000/uploadavatar')
-      request.send(fd)
-      request.onreadystatechange = function () {
-        if (request.readyState === 4 && request.status === 200) {
-          console.log('上传成功')
-          var response = JSON.parse(request.responseText)
-          console.log(response)
-        }
-      }
+      authService.uploadavatar(fd).then(result => {
+        console.log(result)
+        this.avatarSrc = result.path
+      }).catch((err) => {
+        console.log(err)
+      })
     }
-  },
-  destroyed () {
-    // const timer = this.sendCode()
-    // timer.clearCountInterval()
   }
 }
 </script>
@@ -192,7 +162,7 @@ export default {
         }
     }
     .box{
-      width:370px;
+      width:430px;
       padding-bottom: 30px;
       position: absolute;
       left: 50%;
@@ -207,6 +177,9 @@ export default {
           padding: 0 34px;
           .el-form-item{
               margin-left:-100px;
+          }
+          .avatar{
+              margin-left:-55px;
           }
           .el-button--primary{
               width:100%;

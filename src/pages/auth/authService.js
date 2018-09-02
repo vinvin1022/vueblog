@@ -38,8 +38,8 @@ export default {
    * @param  {string} userName 用户名
    * @param  {string} email 邮箱
    */
-  async register (userName, email, memberCellphone, loginPwd, tooLoginPwd) {
-    const {code, data, text} = await post('/api/register', {userName, email, memberCellphone, loginPwd, tooLoginPwd})
+  async register (userName, email, memberCellphone, loginPwd, tooLoginPwd, avatarSrc) {
+    const {code, data, text} = await post('/api/register', {userName, email, memberCellphone, loginPwd, tooLoginPwd, avatarSrc})
     errorHandler(code, text)
     return data
   },
@@ -54,8 +54,9 @@ export default {
   /**
    * 上传头像
    */
-  async uploadavatar () {
-    const {code, data, text} = await post('/api/uploadavatar')
+  async uploadavatar (avatar) {
+    let headers = {headers: {'Content-Type': 'multipart/form-data'}}
+    const {code, data, text} = await post('/api/uploadavatar', avatar, headers)
     errorHandler(code, text)
     return data
   }

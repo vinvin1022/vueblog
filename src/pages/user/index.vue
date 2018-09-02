@@ -11,6 +11,13 @@
           width="300">
         </el-table-column>
         <el-table-column
+        label="头像"
+        width="120">
+          <template slot-scope="scope">
+            <img :src="scope.row.avatarSrc" style="width:100px; height:auto">
+          </template>
+        </el-table-column>
+        <el-table-column
           prop="userName"
           label="用户名"
           width="180">
